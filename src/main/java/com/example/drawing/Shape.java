@@ -49,22 +49,62 @@ public abstract class Shape implements Drawable{
         return y;
     }
 
+    /**
+     * sets the y of the shape
+     *
+     * @author EliWood
+     * @version 1
+     *
+     * @param y the new y
+     */
     public void setY(double y) {
         this.y = y;
     }
 
+    /**
+     * gets the width of the shape
+     *
+     * @author EliWood
+     * @version 1
+     *
+     * @return the width of the shape
+     */
     public double getWidth() {
         return width;
     }
 
+    /**
+     * sets the width of the shape
+     *
+     * @author EliWood
+     * @version 1
+     *
+     * @param width the new width
+     */
     public void setWidth(double width) {
         this.width = width;
     }
 
+    /**
+     * gets the height of the shape
+     *
+     * @author EliWood
+     * @version 1
+     *
+     * @return the height of the shape
+     */
     public double getHeight() {
         return height;
     }
 
+    /**
+     * sets the height of the shape
+     *
+     * @author EliWood
+     * @version 1
+     *
+     * @param height the new height
+     */
     public void setHeight(double height) {
         this.height = height;
     }

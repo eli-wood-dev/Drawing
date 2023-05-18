@@ -19,6 +19,7 @@ import java.io.IOException;
  */
 public class Main extends Application {
     GraphicsContext gc;
+    ArrayList<Shape> shapes = new ArrayList<Shape>();
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -33,7 +34,9 @@ public class Main extends Application {
 
         gc = canvas.getGraphicsContext2D();
 
-
+        for(Shape s: shapes){
+            s.draw(gc);
+        }
 
         stage.show();
     }
