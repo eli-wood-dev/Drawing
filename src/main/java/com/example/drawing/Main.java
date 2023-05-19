@@ -30,7 +30,7 @@ public class Main extends Application {
 
         Canvas canvas = new Canvas(1000, 700);
 
-
+        root.getChildren().addAll(canvas);
 
         gc = canvas.getGraphicsContext2D();
 
