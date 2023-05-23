@@ -6,6 +6,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import java.util.ArrayList;
 
@@ -29,6 +30,7 @@ public class Main extends Application {
     Button square;
     Button circle;
     Button line;
+    Alert a = new Alert(Alert.AlertType.NONE);
 
 
     public void reset(){
@@ -64,7 +66,9 @@ public class Main extends Application {
         try{
             reset.setOnAction(event -> reset());
         } catch(Exception e){
-            new Alert(Alert.AlertType.ERROR, "Unknown Error");//default error, shouldn't reach
+            a.setAlertType(Alert.AlertType.ERROR);
+            a.setContentText("Error");
+            a.show();
         }
         //draw shapes
         for(Shape s: shapes){
