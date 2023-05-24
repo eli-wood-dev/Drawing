@@ -14,7 +14,8 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 
 import java.io.IOException;
-import java.util.Random;
+
+import javafx.scene.input.MouseButton;
 
 /**
  * Allows the user to draw shapes

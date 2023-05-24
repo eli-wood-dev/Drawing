@@ -3,6 +3,13 @@ package com.example.drawing;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
+/**
+ * Basic Ellipse class
+ *
+ * @author EliWood
+ * @version 1
+ *
+ */
 public class Ellipse extends Shape{
 
     /**
