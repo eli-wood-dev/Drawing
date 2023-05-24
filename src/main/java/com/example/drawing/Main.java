@@ -14,6 +14,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 
 import java.io.IOException;
+import java.util.Random;
 
 /**
  * Allows the user to draw shapes
@@ -34,6 +35,11 @@ public class Main extends Application {
 
 
     public void reset(){
+        //cover everything
+        shapes.add(new Rectangle(0, 0, 1200, 600, Color.WHITE, Color.WHITE, 0));
+        shapes.get(shapes.size()-1).draw(gc);
+
+        //remove everything
         for(int i = 0; i < shapes.size(); i++){
             shapes.remove(i);
             i--;
@@ -50,14 +56,16 @@ public class Main extends Application {
 
         Canvas canvas = new Canvas(1200, 600);
 
-        reset = new Button("reset");
+        reset = new Button("Reset");
+        circle = new Button("Circle");
 
-        root.getChildren().addAll(canvas, reset);
+        root.getChildren().addAll(canvas, reset, circle);
 
         gc = canvas.getGraphicsContext2D();
 
         //style and relocate
         reset.relocate(100, 650);
+        circle.relocate(200, 650);
 
         //get user input
         //mouse

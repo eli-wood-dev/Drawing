@@ -38,6 +38,8 @@ public abstract class Shape implements Drawable{
         this.x = x;
         this.width = width;
         this.height = height;
+        this.stroke = stroke;
+        this.strokeWidth = strokeWidth;
     }
 
     /**
