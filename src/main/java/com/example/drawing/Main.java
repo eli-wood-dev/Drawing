@@ -59,14 +59,19 @@ public class Main extends Application {
 
         reset = new Button("Reset");
         circle = new Button("Circle");
+        square = new Button("Rectangle");
+        line = new Button("Line");
 
-        root.getChildren().addAll(canvas, reset, circle);
+        root.getChildren().addAll(canvas, reset, circle, square, line);
 
         gc = canvas.getGraphicsContext2D();
+        reset();//initialize
 
         //style and relocate
         reset.relocate(100, 650);
-        circle.relocate(200, 650);
+        circle.relocate(150, 650);
+        square.relocate(200, 650);
+        line.relocate(275, 650);
 
         //get user input
         //mouse
