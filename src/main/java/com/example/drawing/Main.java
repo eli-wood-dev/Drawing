@@ -53,7 +53,7 @@ public class Main extends Application {
         //remove everything
         shapes.removeAll(shapes);
 
-        selected = null;
+        selectFree();
     }
 
     public void selectRect(){
@@ -74,6 +74,7 @@ public class Main extends Application {
     public void drawShape(MouseEvent mouse) throws Exception{
         Shape temp = shapes.get(shapes.size()-1);
         if(temp instanceof Point){
+            shapes.add(new Line(temp.getX(), temp.getY(), mouse.getX(), mouse.getY(), Color.CRIMSON, 2));
             shapes.add(new Point(mouse.getX(), mouse.getY(), Color.CRIMSON, 2));
         } else if(temp instanceof Line){
             temp.setWidth(mouse.getX() - temp.getX());
