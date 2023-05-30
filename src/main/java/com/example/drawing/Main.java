@@ -35,6 +35,8 @@ public class Main extends Application {
     Button free;
     Alert a = new Alert(Alert.AlertType.NONE);
     Shape selected; //what shape is currently selected
+    ColorPicker cPicker;
+    ColorPicker sPicker;
 
     public void drawAll(){
         new Rectangle(0, 0, 1200, 600, Color.WHITE, Color.WHITE, 0).draw(gc);
@@ -74,8 +76,8 @@ public class Main extends Application {
     public void drawShape(MouseEvent mouse) throws Exception{
         Shape temp = shapes.get(shapes.size()-1);
         if(temp instanceof Point){
-            shapes.add(new Line(temp.getX(), temp.getY(), mouse.getX(), mouse.getY(), Color.CRIMSON, 2));
-            shapes.add(new Point(mouse.getX(), mouse.getY(), Color.CRIMSON, 2));
+            shapes.add(new Line(temp.getX(), temp.getY(), mouse.getX(), mouse.getY(), cPicker.getValue(), 2));
+            shapes.add(new Point(mouse.getX(), mouse.getY(), cPicker.getValue(), 2));
         } else if(temp instanceof Line){
             temp.setWidth(mouse.getX() - temp.getX());
             temp.setHeight(mouse.getY() - temp.getY());
@@ -89,13 +91,13 @@ public class Main extends Application {
 
     public void startShape(MouseEvent mouse) throws Exception {
         if(selected instanceof Point){
-            shapes.add(new Point(mouse.getX(), mouse.getY(), Color.CRIMSON, 2));
+            shapes.add(new Point(mouse.getX(), mouse.getY(), cPicker.getValue(), 2));
         } else if(selected instanceof Line){
-            shapes.add(new Line(mouse.getX(), mouse.getY(), mouse.getX(), mouse.getY(), Color.BLACK, 2));
+            shapes.add(new Line(mouse.getX(), mouse.getY(), mouse.getX(), mouse.getY(), cPicker.getValue(), 2));
         } else if (selected instanceof Ellipse) {
-            shapes.add(new Ellipse(mouse.getX(), mouse.getY(), 0, 0, Color.BLUE, Color.YELLOW, 2));
+            shapes.add(new Ellipse(mouse.getX(), mouse.getY(), 0, 0, cPicker.getValue(), sPicker.getValue(), 2));
         } else if (selected instanceof Rectangle) {
-            shapes.add(new Rectangle(mouse.getX(), mouse.getY(), 0, 0, Color.GREEN, Color.RED, 2));
+            shapes.add(new Rectangle(mouse.getX(), mouse.getY(), 0, 0, cPicker.getValue(), sPicker.getValue(), 2));
         }
         shapes.get(shapes.size()-1).draw(gc);
     }
@@ -116,7 +118,10 @@ public class Main extends Application {
         line = new Button("Line");
         free = new Button("Free Draw");
 
-        root.getChildren().addAll(canvas, reset, circle, square, line, free);
+        cPicker = new ColorPicker(Color.BLACK);
+        sPicker = new ColorPicker(Color.BLACK);
+
+        root.getChildren().addAll(canvas, reset, circle, square, line, free, cPicker, sPicker);
 
         gc = canvas.getGraphicsContext2D();
         reset();//initialize
@@ -127,6 +132,9 @@ public class Main extends Application {
         square.relocate(200, 650);
         line.relocate(275, 650);
         free.relocate(325, 650);
+
+        cPicker.relocate(400, 650);
+        sPicker.relocate(525, 650);
 
         //get user input
         //mouse
