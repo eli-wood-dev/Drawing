@@ -42,7 +42,21 @@ public class Rectangle extends Shape{
         gc.setFill(colour);
         gc.setStroke(stroke);
         gc.setLineWidth(strokeWidth);
-        gc.fillRect(x, y, width, height);
-        gc.strokeRect(x, y, width, height);
+
+        double tempX = x;
+        double tempY = y;
+        double tempW = width;
+        double tempH = height;
+        if(width < 0){
+            tempX += tempW;
+            tempW *= -1;
+        }
+        if(height < 0){
+            tempY += tempH;
+            tempH *= -1;
+        }
+
+        gc.fillRect(tempX, tempY, tempW, tempH);
+        gc.strokeRect(tempX, tempY, tempW, tempH);
     }
 }

@@ -15,8 +15,8 @@ public class Ellipse extends Shape{
     /**
      * Constructor
      *
-     * @param x the x of the center
-     * @param y the y of the center
+     * @param x the x of the top left
+     * @param y the y of the top left
      * @param width the width of the ellipse
      * @param height the height of the ellipse
      * @param colour the colour of the ellipse
@@ -26,7 +26,7 @@ public class Ellipse extends Shape{
      * @version 1
      */
     public Ellipse(double x, double y, double width, double height, Color colour, Color stroke, int strokeWidth) {
-        super(x - width/2, y - height/2, width, height, colour, stroke, strokeWidth);
+        super(x, y, width, height, colour, stroke, strokeWidth);
     }
 
     /**
@@ -42,7 +42,20 @@ public class Ellipse extends Shape{
         gc.setFill(colour);
         gc.setStroke(stroke);
         gc.setLineWidth(strokeWidth);
-        gc.fillOval(x, y, width, height);
-        gc.strokeOval(x, y, width, height);
+        double tempX = x;
+        double tempY = y;
+        double tempW = width;
+        double tempH = height;
+        if(width < 0){
+            tempX += tempW;
+            tempW *= -1;
+        }
+        if(height < 0){
+            tempY += tempH;
+            tempH *= -1;
+        }
+
+        gc.strokeOval(tempX, tempY, tempW, tempH);
+        gc.fillOval(tempX, tempY, tempW, tempH);
     }
 }

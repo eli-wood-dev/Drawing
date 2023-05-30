@@ -51,6 +51,8 @@ public class Main extends Application {
 
         //remove everything
         shapes.removeAll(shapes);
+
+        selected = null;
     }
 
     public void selectRect(){
@@ -70,6 +72,9 @@ public class Main extends Application {
         if(temp instanceof Line){
             temp.setWidth(mouse.getX() - temp.getX());
             temp.setHeight(mouse.getY() - temp.getY());
+        } else if (temp instanceof Ellipse || temp instanceof Rectangle){
+            temp.setWidth(mouse.getX() - temp.getX());
+            temp.setHeight(mouse.getY() - temp.getY());
         }
 
         drawAll();
@@ -79,9 +84,9 @@ public class Main extends Application {
         if(selected instanceof Line){
             shapes.add(new Line(mouse.getX(), mouse.getY(), mouse.getX(), mouse.getY(), Color.BLACK, 2));
         } else if (selected instanceof Ellipse) {
-            shapes.add(new Ellipse(mouse.getX(), mouse.getY(), 100, 100, Color.BLUE, Color.YELLOW, 2));
+            shapes.add(new Ellipse(mouse.getX(), mouse.getY(), 0, 0, Color.BLUE, Color.YELLOW, 2));
         } else if (selected instanceof Rectangle) {
-            shapes.add(new Rectangle(mouse.getX(), mouse.getY(), 100, 100, Color.GREEN, Color.RED, 2));
+            shapes.add(new Rectangle(mouse.getX(), mouse.getY(), 0, 0, Color.GREEN, Color.RED, 2));
         }
         shapes.get(shapes.size()-1).draw(gc);
     }
@@ -123,17 +128,23 @@ public class Main extends Application {
             line.setOnAction(event -> selectLine());
 
             canvas.addEventHandler(MouseEvent.MOUSE_PRESSED, mouse -> {
+
                 try {
                     startShape(mouse);
                 } catch (Exception e) {
-                    throw new RuntimeException(e);
+                    a.setAlertType(Alert.AlertType.WARNING);
+                    a.setContentText("No Shape Selected");
+                    a.show();
                 }
+
             });
             canvas.addEventHandler(MouseEvent.MOUSE_DRAGGED, mouse -> {
                 try {
                     drawShape(mouse);
                 } catch (Exception e) {
-                    throw new RuntimeException(e);
+                    a.setAlertType(Alert.AlertType.WARNING);
+                    a.setContentText("No Shape Selected");
+                    a.show();
                 }
             });
         } catch(Exception e){
