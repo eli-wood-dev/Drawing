@@ -9,14 +9,13 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 
 import javafx.scene.control.*;
-import javafx.scene.input.KeyCode;
 
 import java.io.IOException;
-
-import javafx.scene.input.MouseButton;
 
 /**
  * Allows the user to draw shapes
@@ -34,7 +33,16 @@ public class Main extends Application {
     Button circle;
     Button line;
     Alert a = new Alert(Alert.AlertType.NONE);
+    Shape selected; //what shape is currently selected
 
+    public void drawAll(){
+        new Rectangle(0, 0, 1200, 600, Color.WHITE, Color.WHITE, 0).draw(gc);
+
+        for(Shape s : shapes){
+            s.draw(gc);
+        }
+
+    }
 
     public void reset(){
         //cover everything
@@ -42,10 +50,40 @@ public class Main extends Application {
         shapes.get(shapes.size()-1).draw(gc);
 
         //remove everything
-        for(int i = 0; i < shapes.size(); i++){
-            shapes.remove(i);
-            i--;
+        shapes.removeAll(shapes);
+    }
+
+    public void selectRect(){
+        selected = new Rectangle(0, 0, 0, 0, null, null, 0);//empty rect
+    }
+
+    public void selectEllipse(){
+        selected = new Ellipse(0, 0, 0, 0, null, null, 0);//empty ellipse
+    }
+
+    public void selectLine(){
+        selected = new Line(0, 0, 0, 0, null, 0);//empty line
+    }
+
+    public void drawShape(MouseEvent mouse) throws Exception{
+        Shape temp = shapes.get(shapes.size()-1);
+        if(temp instanceof Line){
+            temp.setWidth(mouse.getX() - temp.getX());
+            temp.setHeight(mouse.getY() - temp.getY());
         }
+
+        drawAll();
+    }
+
+    public void startShape(MouseEvent mouse) throws Exception {
+        if(selected instanceof Line){
+            shapes.add(new Line(mouse.getX(), mouse.getY(), mouse.getX(), mouse.getY(), Color.BLACK, 2));
+        } else if (selected instanceof Ellipse) {
+            shapes.add(new Ellipse(mouse.getX(), mouse.getY(), 100, 100, Color.BLUE, Color.YELLOW, 2));
+        } else if (selected instanceof Rectangle) {
+            shapes.add(new Rectangle(mouse.getX(), mouse.getY(), 100, 100, Color.GREEN, Color.RED, 2));
+        }
+        shapes.get(shapes.size()-1).draw(gc);
     }
 
     @Override
@@ -53,7 +91,7 @@ public class Main extends Application {
         //setup
         Pane root = new Pane();
         Scene scene = new Scene(root, 1200, 700);
-        stage.setTitle("Hello!");
+        stage.setTitle("Macrohard Z4CH4RY");
         stage.setScene(scene);
 
         Canvas canvas = new Canvas(1200, 600);
@@ -80,15 +118,31 @@ public class Main extends Application {
         //buttons
         try{
             reset.setOnAction(event -> reset());
+            circle.setOnAction(event -> selectEllipse());
+            square.setOnAction(event -> selectRect());
+            line.setOnAction(event -> selectLine());
+
+            canvas.addEventHandler(MouseEvent.MOUSE_PRESSED, mouse -> {
+                try {
+                    startShape(mouse);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            });
+            canvas.addEventHandler(MouseEvent.MOUSE_DRAGGED, mouse -> {
+                try {
+                    drawShape(mouse);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            });
         } catch(Exception e){
             a.setAlertType(Alert.AlertType.ERROR);
             a.setContentText("Error");
             a.show();
         }
         //draw shapes
-        for(Shape s: shapes){
-            s.draw(gc);
-        }
+        drawAll();
 
         stage.show();
     }

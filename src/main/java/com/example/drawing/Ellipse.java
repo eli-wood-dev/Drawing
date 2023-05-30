@@ -26,7 +26,7 @@ public class Ellipse extends Shape{
      * @version 1
      */
     public Ellipse(double x, double y, double width, double height, Color colour, Color stroke, int strokeWidth) {
-        super(x, y, width, height, colour, stroke, strokeWidth);
+        super(x - width/2, y - height/2, width, height, colour, stroke, strokeWidth);
     }
 
     /**
