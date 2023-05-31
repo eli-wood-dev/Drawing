@@ -5,6 +5,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -37,6 +38,8 @@ public class Main extends Application {
     Shape selected; //what shape is currently selected
     ColorPicker cPicker;
     ColorPicker sPicker;
+    TextField sSelect;
+    int strokeWidth;
 
     public void drawAll(){
         new Rectangle(0, 0, 1200, 600, Color.WHITE, Color.WHITE, 0).draw(gc);
@@ -54,8 +57,6 @@ public class Main extends Application {
 
         //remove everything
         shapes.removeAll(shapes);
-
-        selectFree();
     }
 
     public void selectRect(){
@@ -74,10 +75,19 @@ public class Main extends Application {
     }
 
     public void drawShape(MouseEvent mouse) throws Exception{
+        try {
+            getStroke();
+        } catch (Exception e) {
+            a.setAlertType(Alert.AlertType.WARNING);
+            a.setContentText(e.getMessage());
+            a.show();
+        }
+
+        sSelect.setText(String.valueOf(strokeWidth));
         Shape temp = shapes.get(shapes.size()-1);
         if(temp instanceof Point){
-            shapes.add(new Line(temp.getX(), temp.getY(), mouse.getX(), mouse.getY(), cPicker.getValue(), 2));
-            shapes.add(new Point(mouse.getX(), mouse.getY(), cPicker.getValue(), 2));
+            shapes.add(new Line(temp.getX(), temp.getY(), mouse.getX(), mouse.getY(), cPicker.getValue(), strokeWidth));
+            shapes.add(new Point(mouse.getX(), mouse.getY(), cPicker.getValue(), strokeWidth));
         } else if(temp instanceof Line){
             temp.setWidth(mouse.getX() - temp.getX());
             temp.setHeight(mouse.getY() - temp.getY());
@@ -90,16 +100,37 @@ public class Main extends Application {
     }
 
     public void startShape(MouseEvent mouse) throws Exception {
+        try {
+            getStroke();
+        } catch (Exception e) {
+            a.setAlertType(Alert.AlertType.WARNING);
+            a.setContentText(e.getMessage());
+            a.show();
+        }
+
+        sSelect.setText(String.valueOf(strokeWidth));
         if(selected instanceof Point){
-            shapes.add(new Point(mouse.getX(), mouse.getY(), cPicker.getValue(), 2));
+            shapes.add(new Point(mouse.getX(), mouse.getY(), cPicker.getValue(), strokeWidth));
         } else if(selected instanceof Line){
-            shapes.add(new Line(mouse.getX(), mouse.getY(), mouse.getX(), mouse.getY(), cPicker.getValue(), 2));
+            shapes.add(new Line(mouse.getX(), mouse.getY(), mouse.getX(), mouse.getY(), cPicker.getValue(), strokeWidth));
         } else if (selected instanceof Ellipse) {
-            shapes.add(new Ellipse(mouse.getX(), mouse.getY(), 0, 0, cPicker.getValue(), sPicker.getValue(), 2));
+            shapes.add(new Ellipse(mouse.getX(), mouse.getY(), 0, 0, cPicker.getValue(), sPicker.getValue(), strokeWidth));
         } else if (selected instanceof Rectangle) {
-            shapes.add(new Rectangle(mouse.getX(), mouse.getY(), 0, 0, cPicker.getValue(), sPicker.getValue(), 2));
+            shapes.add(new Rectangle(mouse.getX(), mouse.getY(), 0, 0, cPicker.getValue(), sPicker.getValue(), strokeWidth));
         }
         shapes.get(shapes.size()-1).draw(gc);
+    }
+
+    public void getStroke() throws Exception{
+        strokeWidth = 2;
+        try {
+            strokeWidth = Integer.parseInt(sSelect.getText());
+        } catch(Exception e){
+            throw new Exception("Invalid number selected");
+        }
+        if(strokeWidth <= 0){
+            throw new Exception("Requires positive number");
+        }
     }
 
     @Override
@@ -121,7 +152,9 @@ public class Main extends Application {
         cPicker = new ColorPicker(Color.BLACK);
         sPicker = new ColorPicker(Color.BLACK);
 
-        root.getChildren().addAll(canvas, reset, circle, square, line, free, cPicker, sPicker);
+        sSelect = new TextField("2");
+
+        root.getChildren().addAll(canvas, reset, circle, square, line, free, cPicker, sPicker, sSelect);
 
         gc = canvas.getGraphicsContext2D();
         reset();//initialize
@@ -136,8 +169,11 @@ public class Main extends Application {
         cPicker.relocate(400, 650);
         sPicker.relocate(525, 650);
 
+        sSelect.relocate(650, 650);
+
+        selectFree();
+
         //get user input
-        //mouse
 
         //buttons
         try{
