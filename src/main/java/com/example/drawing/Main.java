@@ -41,6 +41,13 @@ public class Main extends Application {
     TextField sSelect;
     int strokeWidth;
 
+    /**
+     * clears the screen then draws all the shapes
+     *
+     * @author EliWood
+     * @version 1
+     *
+     */
     public void drawAll(){
         new Rectangle(0, 0, 1200, 600, Color.WHITE, Color.WHITE, 0).draw(gc);
 
@@ -50,31 +57,74 @@ public class Main extends Application {
 
     }
 
+    /**
+     * clears the screen then deletes everything
+     *
+     * @author EliWood
+     * @version 1
+     *
+     */
     public void reset(){
         //cover everything
-        shapes.add(new Rectangle(0, 0, 1200, 600, Color.WHITE, Color.WHITE, 0));
-        shapes.get(shapes.size()-1).draw(gc);
+        new Rectangle(0, 0, 1200, 600, Color.WHITE, Color.WHITE, 0).draw(gc);
 
         //remove everything
         shapes.removeAll(shapes);
     }
 
+    /**
+     * selects a rectangle as your drawing shape
+     *
+     * @author EliWood
+     * @version 1
+     *
+     */
     public void selectRect(){
         selected = new Rectangle(0, 0, 0, 0, null, null, 0);//empty rect
     }
 
+    /**
+     * selects an ellipse as your drawing shape
+     *
+     * @author EliWood
+     * @version 1
+     *
+     */
     public void selectEllipse(){
         selected = new Ellipse(0, 0, 0, 0, null, null, 0);//empty ellipse
     }
 
+    /**
+     * selects a line as your drawing shape
+     *
+     * @author EliWood
+     * @version 1
+     *
+     */
     public void selectLine(){
         selected = new Line(0, 0, 0, 0, null, 0);//empty line
     }
+
+    /**
+     * selects free draw as your drawing shape
+     *
+     * @author EliWood
+     * @version 1
+     *
+     */
     public void selectFree(){
         selected = new Point(0, 0, null, 0);
     }
 
-    public void drawShape(MouseEvent mouse) throws Exception{
+    /**
+     * constantly updates your shape based on mouse position
+     *
+     * @author EliWood
+     * @version 1
+     *
+     * @param mouse the user's mouse
+     */
+    public void drawShape(MouseEvent mouse){
         try {
             getStroke();
         } catch (Exception e) {
@@ -99,7 +149,15 @@ public class Main extends Application {
         drawAll();
     }
 
-    public void startShape(MouseEvent mouse) throws Exception {
+    /**
+     * creates a shape at the mouse's position
+     *
+     * @author EliWood
+     * @version 1
+     *
+     * @param mouse the user's mouse
+     */
+    public void startShape(MouseEvent mouse){
         try {
             getStroke();
         } catch (Exception e) {
@@ -121,6 +179,14 @@ public class Main extends Application {
         shapes.get(shapes.size()-1).draw(gc);
     }
 
+    /**
+     * gets the value from the stroke text box
+     *
+     * @author EliWood
+     * @version 1
+     *
+     * @throws Exception if the number is invalid
+     */
     public void getStroke() throws Exception{
         strokeWidth = 2;
         try {
@@ -133,8 +199,16 @@ public class Main extends Application {
         }
     }
 
+    /**
+     * main drawing program
+     *
+     * @author EliWood
+     * @version 1
+     *
+     * @param stage the stage to draw on
+     */
     @Override
-    public void start(Stage stage) throws IOException {
+    public void start(Stage stage){
         //setup
         Pane root = new Pane();
         Scene scene = new Scene(root, 1200, 700);
