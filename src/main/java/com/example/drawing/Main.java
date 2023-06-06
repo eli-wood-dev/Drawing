@@ -69,7 +69,7 @@ public class Main extends Application {
         new Rectangle(0, 0, 1200, 600, Color.WHITE, Color.WHITE, 0).draw(gc);
 
         //remove everything
-        shapes.removeAll(shapes);
+        shapes.clear();
     }
 
     /**
@@ -212,7 +212,7 @@ public class Main extends Application {
         //setup
         Pane root = new Pane();
         Scene scene = new Scene(root, 1200, 700);
-        stage.setTitle("Macrohard Z4CH4RY");
+        stage.setTitle("Bad paint");
         stage.setScene(scene);
 
         Canvas canvas = new Canvas(1200, 600);
